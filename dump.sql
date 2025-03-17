@@ -1,0 +1,18 @@
+CREATE DATABASE anime;
+
+USE anime;
+
+CREATE TABLE producer(
+	id INT AUTO_INCREMENT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE anime(
+  id INT AUTO_INCREMENT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  episodes INT NOT NULL,
+  producer_id INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (producer_id) REFERENCES producer(id)
+);
