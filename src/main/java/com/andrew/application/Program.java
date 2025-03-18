@@ -1,7 +1,10 @@
 package com.andrew.application;
 
+import com.andrew.domain.Producer;
+import com.andrew.service.ProducerService;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.List;
 import java.util.Scanner;
 
 @Log4j2
@@ -37,8 +40,7 @@ public class Program {
     public static boolean chooseAction(int userInput) {
         switch (userInput) {
             case 1:
-                System.out.print("Enter the producer´s name: ");
-                String producerName = scanner.nextLine();
+                findProducerByName();
                 break;
             case 2:
             case 3:
@@ -53,6 +55,23 @@ public class Program {
                 break;
         }
         return true;
+    }
+
+    public static void findProducerByName() {
+        System.out.print("Enter the producer´s name: ");
+        String producerName = scanner.nextLine();
+        List<Producer> producersFound = ProducerService.findByName(producerName);
+        showProducersFound(producersFound);
+    }
+
+    public static void showProducersFound(List<Producer> producers) {
+        System.out.println("--------------------------");
+        System.out.println("Producers found: ");
+        System.out.println("--------------------------");
+        for (Producer producer : producers) {
+            System.out.println(producer);
+        }
+        scanner.nextLine();
     }
 
 }
