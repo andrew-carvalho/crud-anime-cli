@@ -43,6 +43,8 @@ public class Program {
                 findProducerByName();
                 break;
             case 2:
+                findAllProducers();
+                break;
             case 3:
             case 4:
             case 5:
@@ -64,6 +66,11 @@ public class Program {
         showProducersFound(producersFound);
     }
 
+    public static void findAllProducers() {
+        List<Producer> producers = ProducerService.findAll();
+        showProducersFound(producers);
+    }
+
     public static void showProducersFound(List<Producer> producers) {
         System.out.println("--------------------------");
         System.out.println("Producers found: ");
@@ -71,6 +78,8 @@ public class Program {
         for (Producer producer : producers) {
             System.out.println(producer);
         }
+        System.out.println("--------------------------");
+        System.out.println("Press Enter to continue..");
         SCANNER.nextLine();
     }
 

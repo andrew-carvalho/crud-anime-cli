@@ -11,4 +11,8 @@ public class ProducerService {
         return ProducerRepository.findByName(name);
     }
 
+    public static List<Producer> findAll() {
+        return ProducerRepository.findAll();
+    }
+
 }
