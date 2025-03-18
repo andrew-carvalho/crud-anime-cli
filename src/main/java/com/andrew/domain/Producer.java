@@ -6,6 +6,6 @@ import lombok.Value;
 @Value
 @Builder
 public class Producer {
-    Integer Id;
+    Integer id;
     String name;
 }
