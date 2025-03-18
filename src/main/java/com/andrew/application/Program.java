@@ -10,7 +10,7 @@ import java.util.Scanner;
 @Log4j2
 public class Program {
 
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
         int userInput;
@@ -18,7 +18,7 @@ public class Program {
 
         while (shouldRun) {
             printMenu();
-            userInput = Integer.parseInt(scanner.nextLine());
+            userInput = Integer.parseInt(SCANNER.nextLine());
             shouldRun = chooseAction(userInput);
         }
     }
@@ -59,7 +59,7 @@ public class Program {
 
     public static void findProducerByName() {
         System.out.print("Enter the producer´s name: ");
-        String producerName = scanner.nextLine();
+        String producerName = SCANNER.nextLine();
         List<Producer> producersFound = ProducerService.findByName(producerName);
         showProducersFound(producersFound);
     }
@@ -71,7 +71,7 @@ public class Program {
         for (Producer producer : producers) {
             System.out.println(producer);
         }
-        scanner.nextLine();
+        SCANNER.nextLine();
     }
 
 }
