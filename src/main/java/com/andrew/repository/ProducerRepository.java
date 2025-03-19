@@ -103,4 +103,21 @@ public class ProducerRepository {
         return preparedStatement;
     }
 
+    public static void save(Producer producer) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = createPreparedStatementForSave(connection, producer)) {
+            preparedStatement.execute();
+            log.info("Producer {} created", producer.getName());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static PreparedStatement createPreparedStatementForSave(Connection connection, Producer producer) throws SQLException {
+        String sqlQuery = "INSERT INTO `anime`.`producer` (`name`) VALUES (?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, String.format("'%s'", producer.getName()));
+        return preparedStatement;
+    }
+
 }

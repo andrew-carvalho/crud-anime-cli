@@ -50,6 +50,8 @@ public class Program {
                 deleteProducer();
                 break;
             case 4:
+                saveProducer();
+                break;
             case 5:
                 System.out.println("To be implemented.");
                 break;
@@ -101,6 +103,12 @@ public class Program {
         System.out.println("--------------------------");
         System.out.println("Press Enter to continue..");
         SCANNER.nextLine();
+    }
+
+    public static void saveProducer() {
+        System.out.print("Enter new producer name: ");
+        String producerName = SCANNER.nextLine();
+        ProducerService.save(Producer.builder().name(producerName).build());
     }
 
 }

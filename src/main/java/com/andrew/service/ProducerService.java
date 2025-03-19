@@ -23,4 +23,8 @@ public class ProducerService {
         ProducerRepository.delete(producerId);
     }
 
+    public static void save(Producer producer) {
+        ProducerRepository.save(producer);
+    }
+
 }
