@@ -62,4 +62,45 @@ public class ProducerRepository {
         return producers;
     }
 
+    public static Producer findById(int producerId) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = createPreparedStatementForFindById(connection, producerId);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (!resultSet.next()) {
+                return null;
+            }
+            return Producer.builder()
+                    .id(resultSet.getInt("id"))
+                    .name(resultSet.getString("name"))
+                    .build();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static PreparedStatement createPreparedStatementForFindById(Connection connection, int producerId) throws SQLException {
+        String sqlQuery = "SELECT id, name FROM `anime`.`producer` WHERE id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, producerId);
+        return preparedStatement;
+    }
+
+    public static void delete(int producerId) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = createPreparedStatementForDelete(connection, producerId);) {
+            preparedStatement.execute();
+            log.info("Producer {} deleted", producerId);
+        } catch (SQLException e) {
+            log.error("Error on deleting producer {}", producerId);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static PreparedStatement createPreparedStatementForDelete(Connection connection, int producerId) throws SQLException {
+        String sqlQuery = "DELETE FROM `anime`.`producer` WHERE id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, producerId);
+        return preparedStatement;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.andrew.application;
 
 import com.andrew.domain.Producer;
 import com.andrew.service.ProducerService;
+import com.mysql.cj.callback.UsernameCallback;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
@@ -46,6 +47,8 @@ public class Program {
                 findAllProducers();
                 break;
             case 3:
+                deleteProducer();
+                break;
             case 4:
             case 5:
                 System.out.println("To be implemented.");
@@ -69,6 +72,23 @@ public class Program {
     public static void findAllProducers() {
         List<Producer> producers = ProducerService.findAll();
         showProducersFound(producers);
+    }
+
+    public static void deleteProducer() {
+        System.out.print("Enter the producer´s ID: ");
+        int producerId = Integer.parseInt(SCANNER.nextLine());
+        Producer producer = ProducerService.findById(producerId);
+        if (producer == null) {
+            log.error("Producer with ID {} not found", producerId);
+            return;
+        }
+
+        System.out.println(producer);
+        System.out.print("Are you sure you want to delete this producer? [Y/N] ");
+        String userResponse = SCANNER.nextLine();
+        if ("Y".equalsIgnoreCase(userResponse)) {
+            ProducerService.delete(producerId);
+        }
     }
 
     public static void showProducersFound(List<Producer> producers) {

@@ -15,4 +15,12 @@ public class ProducerService {
         return ProducerRepository.findAll();
     }
 
+    public static Producer findById(int producerId) {
+        return ProducerRepository.findById(producerId);
+    }
+
+    public static void delete(int producerId) {
+        ProducerRepository.delete(producerId);
+    }
+
 }
