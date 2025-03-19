@@ -120,4 +120,22 @@ public class ProducerRepository {
         return preparedStatement;
     }
 
+    public static void update(Producer producer) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = createPreparedStatementForUpdate(connection, producer)) {
+            preparedStatement.execute();
+            log.info("Producer {} updated", producer.getId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static PreparedStatement createPreparedStatementForUpdate(Connection connection, Producer producer) throws SQLException {
+        String sqlQuery = "UPDATE `anime`.`producer` SET name = ? WHERE id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, String.format("'%s'", producer.getName()));
+        preparedStatement.setInt(2, producer.getId());
+        return preparedStatement;
+    }
+
 }

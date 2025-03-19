@@ -27,4 +27,8 @@ public class ProducerService {
         ProducerRepository.save(producer);
     }
 
+    public static void update(Producer producer) {
+        ProducerRepository.update(producer);
+    }
+
 }

@@ -2,7 +2,6 @@ package com.andrew.application;
 
 import com.andrew.domain.Producer;
 import com.andrew.service.ProducerService;
-import com.mysql.cj.callback.UsernameCallback;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
@@ -53,7 +52,7 @@ public class Program {
                 saveProducer();
                 break;
             case 5:
-                System.out.println("To be implemented.");
+                updateProducer();
                 break;
             case 0:
                 return false;
@@ -109,6 +108,32 @@ public class Program {
         System.out.print("Enter new producer name: ");
         String producerName = SCANNER.nextLine();
         ProducerService.save(Producer.builder().name(producerName).build());
+    }
+
+    public static void updateProducer() {
+        System.out.print("Enter producer ID: ");
+        int producerId = Integer.parseInt(SCANNER.nextLine());
+
+        Producer producer = ProducerService.findById(producerId);
+        if (producer == null) {
+            log.error("Producer with id {} not found", producerId);
+            return;
+        }
+
+        System.out.println(producer);
+        System.out.print("Enter new producer name (or empty to keep): ");
+        String producerName = SCANNER.nextLine();
+
+        if (producerName.isEmpty() || producerName.equals(producer.getName())) {
+            return;
+        }
+
+        Producer updatedProducer = Producer.builder()
+                .id(producerId)
+                .name(producerName)
+                .build();
+
+        ProducerService.update(updatedProducer);
     }
 
 }
