@@ -103,9 +103,9 @@ public class ProducerRepository {
         return preparedStatement;
     }
 
-    public static void save(Producer producer) {
+    public static void create(Producer producer) {
         try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement preparedStatement = createPreparedStatementForSave(connection, producer)) {
+             PreparedStatement preparedStatement = createPreparedStatementForCreate(connection, producer)) {
             preparedStatement.execute();
             log.info("Producer {} created", producer.getName());
         } catch (SQLException e) {
@@ -113,10 +113,10 @@ public class ProducerRepository {
         }
     }
 
-    public static PreparedStatement createPreparedStatementForSave(Connection connection, Producer producer) throws SQLException {
+    public static PreparedStatement createPreparedStatementForCreate(Connection connection, Producer producer) throws SQLException {
         String sqlQuery = "INSERT INTO `anime`.`producer` (`name`) VALUES (?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setString(1, String.format("'%s'", producer.getName()));
+        preparedStatement.setString(1, String.format("%s", producer.getName()));
         return preparedStatement;
     }
 
@@ -133,7 +133,7 @@ public class ProducerRepository {
     public static PreparedStatement createPreparedStatementForUpdate(Connection connection, Producer producer) throws SQLException {
         String sqlQuery = "UPDATE `anime`.`producer` SET name = ? WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setString(1, String.format("'%s'", producer.getName()));
+        preparedStatement.setString(1, String.format("%s", producer.getName()));
         preparedStatement.setInt(2, producer.getId());
         return preparedStatement;
     }
