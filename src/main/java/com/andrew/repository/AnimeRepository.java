@@ -131,4 +131,22 @@ public class AnimeRepository {
         return preparedStatement;
     }
 
+    public static void create(Anime anime) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = createPreparedStatementForCreate(connection, anime)) {
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static PreparedStatement createPreparedStatementForCreate(Connection connection, Anime anime) throws SQLException {
+        String sqlQuery = "INSERT INTO anime (name, episodes, producer_id) VALUES (?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, anime.getName());
+        preparedStatement.setInt(2, anime.getEpisodes());
+        preparedStatement.setInt(3, anime.getProducer().getId());
+        return preparedStatement;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.andrew.service;
 
 import com.andrew.domain.Anime;
+import com.andrew.domain.Producer;
 import com.andrew.repository.AnimeRepository;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class AnimeService {
                     delete();
                     break;
                 case 4:
-                    // TODO: Create
+                    create();
                     break;
                 case 5:
                     // TODO: Update
@@ -103,6 +104,38 @@ public class AnimeService {
         if ("Y".equalsIgnoreCase(userResponse)) {
             AnimeRepository.delete(animeId);
         }
+    }
+
+    public static void create() {
+        System.out.print("Enter producer's ID: ");
+        int producerId = Integer.parseInt(SCANNER.nextLine());
+        Producer producer = ProducerService.findById(producerId);
+        if (producer == null) {
+            System.out.printf("Producer with ID %d not found, try again.\n", producerId);
+            return;
+        }
+
+        System.out.print("Enter anime name: ");
+        String animeName = SCANNER.nextLine();
+        if (animeName.isEmpty()) {
+            System.out.println("Anime name cannot be empty!");
+            return;
+        }
+
+        System.out.print("Enter number of episodes: ");
+        int animeEpisodes = Integer.parseInt(SCANNER.nextLine());
+        if (animeEpisodes <= 0) {
+            System.out.println("Anime must contain at least one episode");
+            return;
+        }
+
+        Anime anime = Anime.builder()
+                .name(animeName)
+                .episodes(animeEpisodes)
+                .producer(producer)
+                .build();
+
+        AnimeRepository.create(anime);
     }
 
 }
