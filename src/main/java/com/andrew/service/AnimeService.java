@@ -45,7 +45,7 @@ public class AnimeService {
                     create();
                     break;
                 case 5:
-                    // TODO: Update
+                    update();
                     break;
                 default:
                     System.out.println("Invalid option! Try again");
@@ -136,6 +136,63 @@ public class AnimeService {
                 .build();
 
         AnimeRepository.create(anime);
+    }
+
+    public static void update() {
+        System.out.print("Enter anime ID: ");
+        int animeId = Integer.parseInt(SCANNER.nextLine());
+        Anime anime = findById(animeId);
+        if (anime == null) {
+            System.out.printf("Anime with ID %d not found!\n", animeId);
+            return;
+        }
+
+        System.out.println(anime);
+
+        System.out.print("Enter new anime name (or empty to keep the same): ");
+        String animeName = SCANNER.nextLine();
+        if (animeName.isEmpty()) {
+            animeName = anime.getName();
+        }
+
+        System.out.print("Enter new episodes quantity (or empty to keep the same): ");
+        String animeEpisodesString = SCANNER.nextLine();
+
+        int animeEpisodes;
+        if (animeEpisodesString.isEmpty()) {
+            animeEpisodes = anime.getEpisodes();
+        } else {
+            animeEpisodes = Integer.parseInt(animeEpisodesString);
+            if (animeEpisodes <= 0) {
+                System.out.println("Anime must contain at least one episode");
+                return;
+            }
+        }
+
+        System.out.print("Enter new Producer ID (or empty to keep the same): ");
+        String producerIdString = SCANNER.nextLine();
+
+        int producerId;
+        if (producerIdString.isEmpty()) {
+            producerId = anime.getProducer().getId();
+        } else {
+            producerId = Integer.parseInt(producerIdString);
+        }
+
+        Producer producer = ProducerService.findById(producerId);
+        if (producer == null) {
+            System.out.printf("Producer with ID %d not found, try again.\n", producerId);
+            return;
+        }
+
+        Anime newAnime = Anime.builder()
+                .id(animeId)
+                .name(animeName)
+                .episodes(animeEpisodes)
+                .producer(producer)
+                .build();
+
+        AnimeRepository.update(newAnime);
     }
 
 }
