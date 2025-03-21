@@ -1,5 +1,9 @@
 package com.andrew.service;
 
+import com.andrew.domain.Anime;
+import com.andrew.repository.AnimeRepository;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class AnimeService {
@@ -28,7 +32,7 @@ public class AnimeService {
 
             switch (userInput) {
                 case 1:
-                    // TODO: Get all
+                    findAll();
                     break;
                 case 2:
                     // TODO: Find by name
@@ -47,6 +51,25 @@ public class AnimeService {
                     break;
             }
         }
+    }
+
+    public static void showAnimesFound(List<Anime> animeList) {
+        System.out.println("Animes found: ");
+        for (Anime anime : animeList) {
+            System.out.printf("[%d] - %s (%d episodes) from %s\n",
+                    anime.getId(), anime.getName(), anime.getEpisodes(), anime.getProducer().getName());
+        }
+        System.out.println("Press any key to continue...");
+        SCANNER.nextLine();
+    }
+
+    public static void findAll() {
+        List<Anime> animeList = AnimeRepository.findAll();
+        if (animeList.isEmpty()) {
+            System.out.println("No animes was found!");
+            return;
+        }
+        showAnimesFound(animeList);
     }
 
 }
