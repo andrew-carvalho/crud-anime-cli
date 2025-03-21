@@ -38,7 +38,7 @@ public class AnimeService {
                     findByName();
                     break;
                 case 3:
-                    // TODO: Delete
+                    delete();
                     break;
                 case 4:
                     // TODO: Create
@@ -76,11 +76,33 @@ public class AnimeService {
         System.out.print("Enter anime name: ");
         String animeName = SCANNER.nextLine();
         List<Anime> animeList = AnimeRepository.findByName(animeName);
-        if(animeList.isEmpty()) {
+        if (animeList.isEmpty()) {
             System.out.printf("No anime found with the name %s/n", animeName);
             return;
         }
         showAnimesFound(animeList);
+    }
+
+    public static Anime findById(int id) {
+        return AnimeRepository.findById(id);
+    }
+
+    public static void delete() {
+        System.out.print("Enter anime ID to delete: ");
+        int animeId = Integer.parseInt(SCANNER.nextLine());
+
+        Anime anime = findById(animeId);
+        if (anime == null) {
+            System.out.printf("No anime found with id %d\n", animeId);
+            return;
+        }
+
+        System.out.println(anime);
+        System.out.print("Are you sure you want to delete this anime? [Y/N] ");
+        String userResponse = SCANNER.nextLine();
+        if ("Y".equalsIgnoreCase(userResponse)) {
+            AnimeRepository.delete(animeId);
+        }
     }
 
 }

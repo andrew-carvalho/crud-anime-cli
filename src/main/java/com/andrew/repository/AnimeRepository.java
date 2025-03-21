@@ -80,4 +80,55 @@ public class AnimeRepository {
         return preparedStatement;
     }
 
+    public static Anime findById(int animeId) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = createPreparedStatementForFindById(connection, animeId);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                Producer producer = Producer.builder()
+                        .id(resultSet.getInt("producer_id"))
+                        .name(resultSet.getString("producer_name"))
+                        .build();
+
+                return Anime.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .episodes(resultSet.getInt("episodes"))
+                        .producer(producer)
+                        .build();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
+
+    public static PreparedStatement createPreparedStatementForFindById(Connection connection, int animeId) throws SQLException {
+        String sqlQuery = """
+                SELECT a.id, a.name, a.episodes, a.producer_id, p.name AS producer_name
+                FROM anime a INNER JOIN producer p ON p.id = a.producer_id
+                WHERE a.id = ?;
+                """;
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, animeId);
+        return preparedStatement;
+    }
+
+    public static void delete(int animeId) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = createPreparedStatementForDelete(connection, animeId)) {
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static PreparedStatement createPreparedStatementForDelete(Connection connection, int animeId) throws SQLException {
+        String sqlQuery = "DELETE FROM anime WHERE id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, animeId);
+        return preparedStatement;
+    }
+
 }
