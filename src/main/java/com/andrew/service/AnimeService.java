@@ -1,0 +1,52 @@
+package com.andrew.service;
+
+import java.util.Scanner;
+
+public class AnimeService {
+
+    public static final Scanner SCANNER = new Scanner(System.in);
+
+    public static void printMenu() {
+        System.out.println("1 - Get all animes");
+        System.out.println("2 - Find anime by name");
+        System.out.println("3 - Delete an anime");
+        System.out.println("4 - Create new anime");
+        System.out.println("5 - Update an anime");
+        System.out.println("0 - Go back");
+        System.out.print("Choose a option: ");
+    }
+
+    public static void chooseOption() {
+        while (true) {
+            printMenu();
+
+            int userInput = Integer.parseInt(SCANNER.nextLine());
+
+            if (userInput == 0) {
+                break;
+            }
+
+            switch (userInput) {
+                case 1:
+                    // TODO: Get all
+                    break;
+                case 2:
+                    // TODO: Find by name
+                    break;
+                case 3:
+                    // TODO: Delete
+                    break;
+                case 4:
+                    // TODO: Create
+                    break;
+                case 5:
+                    // TODO: Update
+                    break;
+                default:
+                    System.out.println("Invalid option! Try again");
+                    break;
+            }
+        }
+    }
+
+}

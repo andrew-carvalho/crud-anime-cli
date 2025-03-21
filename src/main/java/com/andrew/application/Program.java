@@ -1,5 +1,6 @@
 package com.andrew.application;
 
+import com.andrew.service.AnimeService;
 import com.andrew.service.ProducerService;
 
 import java.util.Scanner;
@@ -22,7 +23,7 @@ public class Program {
                     ProducerService.chooseOption();
                     break;
                 case 2:
-                    // TODO: Anime menu
+                    AnimeService.chooseOption();
                     break;
                 default:
                     System.out.println("Invalid option! Try again");
