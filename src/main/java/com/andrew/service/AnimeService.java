@@ -35,7 +35,7 @@ public class AnimeService {
                     findAll();
                     break;
                 case 2:
-                    // TODO: Find by name
+                    findByName();
                     break;
                 case 3:
                     // TODO: Delete
@@ -67,6 +67,17 @@ public class AnimeService {
         List<Anime> animeList = AnimeRepository.findAll();
         if (animeList.isEmpty()) {
             System.out.println("No animes was found!");
+            return;
+        }
+        showAnimesFound(animeList);
+    }
+
+    public static void findByName() {
+        System.out.print("Enter anime name: ");
+        String animeName = SCANNER.nextLine();
+        List<Anime> animeList = AnimeRepository.findByName(animeName);
+        if(animeList.isEmpty()) {
+            System.out.printf("No anime found with the name %s/n", animeName);
             return;
         }
         showAnimesFound(animeList);
