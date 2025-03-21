@@ -63,6 +63,7 @@ public class AnimeRepository {
                 animeList.add(anime);
             }
         } catch (SQLException e) {
+            log.error("Error while returning anime(s) with name {}: {}", animeName, e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -98,6 +99,7 @@ public class AnimeRepository {
                         .build();
             }
         } catch (SQLException e) {
+            log.error("Error while returning anime with id {}: {}", animeId, e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -120,6 +122,7 @@ public class AnimeRepository {
              PreparedStatement preparedStatement = createPreparedStatementForDelete(connection, animeId)) {
             preparedStatement.execute();
         } catch (SQLException e) {
+            log.error("Error while deleting anime with id {}: {}", animeId, e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -136,6 +139,7 @@ public class AnimeRepository {
              PreparedStatement preparedStatement = createPreparedStatementForCreate(connection, anime)) {
             preparedStatement.execute();
         } catch (SQLException e) {
+            log.error("Error while creating new anime: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -154,6 +158,7 @@ public class AnimeRepository {
              PreparedStatement preparedStatement = createPreparedStatementForUpdate(connection, anime)) {
             preparedStatement.execute();
         } catch (SQLException e) {
+            log.error("Error while updating anime with id {}: {}", anime.getId(), e.getMessage());
             throw new RuntimeException(e);
         }
     }

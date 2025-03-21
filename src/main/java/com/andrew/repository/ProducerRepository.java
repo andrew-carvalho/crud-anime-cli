@@ -25,7 +25,7 @@ public class ProducerRepository {
                 producers.add(producer);
             }
         } catch (SQLException e) {
-            log.error("Error on retrieving producer with name {}", name);
+            log.error("Error while returning producer(s) with name {}: {}", name, e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -55,7 +55,7 @@ public class ProducerRepository {
                 producers.add(producer);
             }
         } catch (SQLException e) {
-            log.error("Error on retrieving producers");
+            log.error("Error while returning producers: {}", e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -74,6 +74,7 @@ public class ProducerRepository {
                     .name(resultSet.getString("name"))
                     .build();
         } catch (SQLException e) {
+            log.error("Error while returning producer with id {}: {}", producerId, e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -89,9 +90,8 @@ public class ProducerRepository {
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement preparedStatement = createPreparedStatementForDelete(connection, producerId);) {
             preparedStatement.execute();
-            log.info("Producer {} deleted", producerId);
         } catch (SQLException e) {
-            log.error("Error on deleting producer {}", producerId);
+            log.error("Error while deleting producer with id {}: {}", producerId, e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -107,8 +107,8 @@ public class ProducerRepository {
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement preparedStatement = createPreparedStatementForCreate(connection, producer)) {
             preparedStatement.execute();
-            log.info("Producer {} created", producer.getName());
         } catch (SQLException e) {
+            log.error("Error while creating new producer: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -124,8 +124,8 @@ public class ProducerRepository {
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement preparedStatement = createPreparedStatementForUpdate(connection, producer)) {
             preparedStatement.execute();
-            log.info("Producer {} updated", producer.getId());
         } catch (SQLException e) {
+            log.error("Error while updating producer with id {}: {}", producer.getId(), e.getMessage());
             throw new RuntimeException(e);
         }
     }
